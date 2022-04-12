@@ -1,0 +1,170 @@
+[
+  {
+    "id": 1,
+    "name": "users",
+    "method": "GET",
+    "requestbody": "",
+    "requestresponse": {
+      "status": "success",
+      "data": {
+        "users": [
+          {
+            "id": 1,
+            "email": "someone@redmug.dev",
+            "role": "superuser"
+          },
+          {
+            "id": 2,
+            "email": "support@redmug.dev",
+            "role": "user"
+          },
+          {
+            "id": 7,
+            "email": "jwilson@redmug.dev",
+            "role": "user"
+          },
+          {
+            "id": 12,
+            "email": "aduffy@redmug.dev",
+            "role": "user"
+          },
+          {
+            "id": 52,
+            "email": "ajwilson@redmug.dev",
+            "role": "user"
+          },
+          {
+            "id": 67,
+            "email": "shwilson@redmug.dev",
+            "role": "user"
+          }
+        ]
+      }
+    },
+    "description": "returns collection of users",
+    "failmessages": "no users exist|You need permission to list users - contact system admin",
+    "testmatches": "users[0].email|users[1].email|users[2].email|users[0].role|users[1].role|users[2].role",
+    "notes": "This routes gets all users. For handling ranges of users use GET usersbyrange API call"
+  },
+  {
+    "id": 2,
+    "name": "user/:id",
+    "method": "GET",
+    "requestbody": "",
+    "requestresponse": {
+      "status": "success",
+      "data": {
+        "users": [
+          {
+            "id": 7,
+            "email": "jwilson@redmug.dev",
+            "role": "user"
+          }
+        ]
+      }
+    },
+    "description": "returns a single user matching id [int]",
+    "failmessages": "no users exists matching id",
+    "testmatches": "users[0].email",
+    "notes": ""
+  },
+  {
+    "id": 3,
+    "name": "usersearch?name=wil",
+    "method": "GET",
+    "requestbody": "",
+    "requestresponse": {
+      "status": "success",
+      "data": {
+        "users": [
+          {
+            "id": 7,
+            "email": "jwilson@redmug.dev",
+            "role": "user"
+          },
+          {
+            "id": 52,
+            "email": "ajwilson@redmug.dev",
+            "role": "user"
+          },
+          {
+            "id": 67,
+            "email": "shwilson@redmug.dev",
+            "role": "user"
+          }
+        ]
+      }
+    },
+    "description": "returns collection users matching by name [string] and country [string] ",
+    "failmessages": "search returned no matching users",
+    "testmatches": "users[0].email|users[1].email|users[2].email",
+    "notes": "searches are case insensitive. Name is matched by 'starting with'. Country is matched to ISO 3166 codes"
+  },
+  {
+    "id": 100,
+    "name": "createuser",
+    "method": "POST",
+    "requestbody": [
+      {
+        "display_name": "HamptonNorth",
+        "email": "hamptonnorth@redmug.dev",
+        "client_id": 150,
+        "user_status": 0,
+        "last_login": "2000-01-01 00:00:00",
+        "role": "superuser"
+      }
+    ],
+    "requestresponse": {
+      "status": "success",
+      "data": {
+        "added": [
+          {
+            "id": true
+          }
+        ]
+      }
+    },
+    "description": "Add a user to users table  ",
+    "failmessages": "display_name blank|email blank|invalid client_id|invalid user_status|invalid role",
+    "testmatches": "added[0].id",
+    "notes": "last_login date set to now() if not provided. For bulk user creation use import API"
+  },
+
+  {
+    "id": 200,
+    "name": "updateuserrole",
+    "method": "PUT",
+    "requestbody": [
+      {
+        "client_id": 1,
+        "role": "superuser"
+      }
+    ],
+    "requestresponse": {
+      "status": "success",
+      "data": ""
+    },
+    "description": "Update user role",
+    "failmessages": "invalid client_id|invalid role",
+    "testmatches": "",
+    "notes": "Updates user role where role may be 'user' or 'superuser' only"
+  },
+  {
+    "id": 300,
+    "name": "deleteuser",
+    "method": "DELETE",
+    "requestbody": [
+      {
+        "client_id": 1
+      }
+    ],
+    "requestresponse": {
+      "status": "success",
+      "data": ""
+    },
+    "description": "Delete a user",
+    "failmessages": "invalid user_id",
+    "testmatches": "",
+    "notes": "Deletes user  by id"
+  }
+]
